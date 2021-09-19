@@ -3,11 +3,11 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExcess;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class UserMealsUtil {
     public static void main(String[] args) {
@@ -29,7 +29,26 @@ public class UserMealsUtil {
 
     public static List<UserMealWithExcess> filteredByCycles(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         // TODO return filtered list with excess. Implement by cycles
-        return null;
+        List<UserMealWithExcess> filteredList = new ArrayList<>();
+        List<UserMeal> tempFilteredUserMeal = new ArrayList<>();
+        Map<LocalDate, Boolean> dayExcesses = new HashMap<>();
+        Map<LocalDate, Integer> daylySumCallories = new HashMap<>();
+        for (UserMeal meal: meals) {
+            dayExcesses.putIfAbsent(meal.getDateTime().toLocalDate(), false);
+            daylySumCallories.merge(meal.getDateTime().toLocalDate(), meal.getCalories(), Integer::sum);
+            if (daylySumCallories.get(meal.getDateTime().toLocalDate()) > caloriesPerDay) {
+                dayExcesses.put(meal.getDateTime().toLocalDate(), true);
+            }
+            if ((meal.getDateTime().toLocalTime().isAfter(startTime)
+                    || meal.getDateTime().toLocalTime().equals(startTime))
+                    && meal.getDateTime().toLocalTime().isBefore(endTime)) {
+                tempFilteredUserMeal.add(meal);
+            }
+        }
+        for (UserMeal meal: tempFilteredUserMeal) {
+            filteredList.add(new UserMealWithExcess(meal, dayExcesses.get(meal.getDateTime().toLocalDate())));
+        }
+        return filteredList;
     }
 
     public static List<UserMealWithExcess> filteredByStreams(List<UserMeal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
@@ -37,3 +56,4 @@ public class UserMealsUtil {
         return null;
     }
 }
+
