@@ -37,9 +37,7 @@ public class UserMealsUtil {
 
         for (UserMeal meal: meals) {
             dailySumCalories.merge(meal.getDateTime().toLocalDate(), meal.getCalories(), Integer::sum);
-            if ((meal.getDateTime().toLocalTime().isAfter(startTime)
-                    || meal.getDateTime().toLocalTime().equals(startTime))
-                    && meal.getDateTime().toLocalTime().isBefore(endTime)) {
+            if (TimeUtil.isBetweenHalfOpen(meal.getDateTime().toLocalTime(),startTime, endTime)) {
                 tempFilteredUserMeal.add(meal);
             }
         }
@@ -57,14 +55,11 @@ public class UserMealsUtil {
                 Collectors.summingInt(UserMeal::getCalories)));
 
         return meals.stream()
-                .filter(s -> (s.getDateTime().toLocalTime().isAfter(startTime) ||
-                        s.getDateTime().toLocalTime().equals(startTime)) &&
-                        s.getDateTime().toLocalTime().isBefore(endTime))
+                .filter(s -> TimeUtil.isBetweenHalfOpen(s.getDateTime().toLocalTime(),startTime, endTime))
                 .collect(
                         ArrayList::new,
-                        (list, item)->
-                                list.add(new UserMealWithExcess(item,
-                                        dailySumCalories.get(item.getDateTime().toLocalDate()) > caloriesPerDay)),
+                        (list, item)-> list.add(new UserMealWithExcess(item,
+                                dailySumCalories.get(item.getDateTime().toLocalDate()) > caloriesPerDay)),
                         ArrayList::addAll);
     }
 }
