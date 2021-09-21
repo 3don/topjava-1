@@ -10,6 +10,7 @@ import java.time.Month;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
 public class UserMealsUtil {
     public static void main(String[] args) {
         List<UserMeal> meals = Arrays.asList(
@@ -32,14 +33,10 @@ public class UserMealsUtil {
 
         List<UserMealWithExcess> filteredList = new ArrayList<>();
         List<UserMeal> tempFilteredUserMeal = new ArrayList<>();
-        Map<LocalDate, Boolean> dayExcesses = new HashMap<>();
         Map<LocalDate, Integer> dailySumCalories = new HashMap<>();
+
         for (UserMeal meal: meals) {
-            dayExcesses.putIfAbsent(meal.getDateTime().toLocalDate(), false);
             dailySumCalories.merge(meal.getDateTime().toLocalDate(), meal.getCalories(), Integer::sum);
-            if (dailySumCalories.get(meal.getDateTime().toLocalDate()) > caloriesPerDay) {
-                dayExcesses.put(meal.getDateTime().toLocalDate(), true);
-            }
             if ((meal.getDateTime().toLocalTime().isAfter(startTime)
                     || meal.getDateTime().toLocalTime().equals(startTime))
                     && meal.getDateTime().toLocalTime().isBefore(endTime)) {
@@ -47,7 +44,8 @@ public class UserMealsUtil {
             }
         }
         for (UserMeal meal: tempFilteredUserMeal) {
-            filteredList.add(new UserMealWithExcess(meal, dayExcesses.get(meal.getDateTime().toLocalDate())));
+            filteredList.add(new UserMealWithExcess(meal,
+                    dailySumCalories.get(meal.getDateTime().toLocalDate()) > caloriesPerDay));
         }
         return filteredList;
     }
@@ -58,8 +56,8 @@ public class UserMealsUtil {
                 .collect(Collectors.groupingBy((p)->p.getDateTime().toLocalDate(),
                 Collectors.summingInt(UserMeal::getCalories)));
 
-        return meals.stream().filter(s ->
-                (s.getDateTime().toLocalTime().isAfter(startTime) ||
+        return meals.stream()
+                .filter(s -> (s.getDateTime().toLocalTime().isAfter(startTime) ||
                         s.getDateTime().toLocalTime().equals(startTime)) &&
                         s.getDateTime().toLocalTime().isBefore(endTime))
                 .collect(
