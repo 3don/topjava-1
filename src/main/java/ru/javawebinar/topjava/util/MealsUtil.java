@@ -1,7 +1,9 @@
 package ru.javawebinar.topjava.util;
 
+import org.slf4j.Logger;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealTo;
+import ru.javawebinar.topjava.web.UserServlet;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,8 +14,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 public class MealsUtil {
+    //константа
+    private static final int CALORIES_PER_DAY = 2000;
+
+    private static final Logger log = getLogger(UserServlet.class);
     public static void main(String[] args) {
+        log.debug("Start in MealsUtils");
         List<Meal> meals = Arrays.asList(
                 new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500),
                 new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000),
