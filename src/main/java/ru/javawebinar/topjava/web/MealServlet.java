@@ -27,6 +27,7 @@ public class MealServlet extends HttpServlet {
         log.debug("redirect to meals");
         List<MealTo> mealsList = MealsUtil.withoutFiltering(repository.getMealsList(), MealsUtil.CALORIES_PER_DAY);
         request.setAttribute("mealsList", mealsList);
+
         request.getRequestDispatcher("/meals.jsp").forward(request, response);
 //        response.sendRedirect("meals.jsp");
     }

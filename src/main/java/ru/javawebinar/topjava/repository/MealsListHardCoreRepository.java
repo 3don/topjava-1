@@ -26,14 +26,17 @@ public final class MealsListHardCoreRepository {
         return mealsList;
     }
 
-    public List<Meal> addMeal(Meal meal){
+    public void addMeal(Meal meal){
         mealsList.add(meal);
-        return mealsList;
     }
 
-    public List<Meal> deleteMeal(Meal meal){
+    public void deleteMeal(Meal meal){
         mealsList.remove(meal);
-        return mealsList;
+    }
+
+    public void updateMeal(Meal toDelete, Meal toAdd){
+        deleteMeal(toDelete);
+        addMeal(toAdd);
     }
 
     public Meal getMeal(int index){
