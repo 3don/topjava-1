@@ -11,6 +11,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 public class Main {
     private static final Logger log = getLogger(UserServlet.class);
+
     public static void main(String[] args) {
         log.debug("Start in Main");
         System.out.format("Hello TopJava Enterprise!");
