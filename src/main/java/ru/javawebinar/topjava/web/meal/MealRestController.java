@@ -15,7 +15,16 @@ public class MealRestController extends AbstractMealController {
         return super.getAll();
     }
 
-    public List<MealTo> getAll(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
+    public List<MealTo> getAll(String startDateString, String endDateString, String startTimeString, String endTimeString) {
+        LocalDate startDate = LocalDate.MIN;
+        LocalDate endDate = LocalDate.MAX;
+        LocalTime startTime = LocalTime.MIN;
+        LocalTime endTime = LocalTime.MAX;
+
+        if (!startDateString.equals("")) startDate = LocalDate.parse(startDateString);
+        if (!endDateString.equals("")) endDate = LocalDate.parse(endDateString);
+        if(!startTimeString.equals("")) startTime = LocalTime.parse(startTimeString);
+        if (!endTimeString.equals("")) endTime = LocalTime.parse(endTimeString);
         return super.getAll(startDate, endDate, startTime, endTime);
     }
 

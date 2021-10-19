@@ -16,28 +16,37 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
+import static ru.javawebinar.topjava.web.SecurityUtil.changeUser;
+
 public class MealServlet extends HttpServlet {
 
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
     private MealRestController mealRestController;
-
+    private ConfigurableApplicationContext context;
 
     @Override
     public void init() {
-        try (ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
-            mealRestController = context.getBean(MealRestController.class);
-        }
+        context = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+        mealRestController = context.getBean(MealRestController.class);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getParameter("action").equals("changeUser")) {
+            if (request.getParameter("user1").equals("User1"))
+                changeUser(1);
+            else changeUser(2);
+            response.sendRedirect("meals");
+            return;
+        }
+
         request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
                 LocalDateTime.parse(request.getParameter("dateTime")),
                 request.getParameter("description"),
                 Integer.parseInt(request.getParameter("calories")));
-
         log.info(meal.isNew() ? "Create {}" : "Update {}", meal);
         if (meal.isNew()) {
             mealRestController.create(meal);
@@ -66,6 +75,15 @@ public class MealServlet extends HttpServlet {
                 request.setAttribute("meal", meal);
                 request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
                 break;
+            case "filter":
+                log.info("getAllFiltered");
+                request.setAttribute("meals", mealRestController.getAll(
+                        request.getParameter("startDate"),
+                        request.getParameter("endDate"),
+                        request.getParameter("startTime"),
+                        request.getParameter("endTime")));
+                request.getRequestDispatcher("/meals.jsp").forward(request, response);
+                break;
             case "all":
             default:
                 log.info("getAll");
@@ -82,7 +100,7 @@ public class MealServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-
+        context.close();
         super.destroy();
 
     }

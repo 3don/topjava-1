@@ -24,7 +24,7 @@ public abstract class AbstractMealController {
 
     public List<MealTo> getAll() {
         log.info("getAll");
-        return getAll(LocalDate.MIN, LocalDate.MAX, LocalTime.MIN, LocalTime.MAX);
+        return MealsUtil.getTos(service.getAll(authUserId()), authUserCaloriesPerDay());
     }
 
     public List<MealTo> getAll(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {

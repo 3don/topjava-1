@@ -29,6 +29,9 @@ public class MealService {
     public Collection<Meal> getAll(int userId, LocalDate startDate, LocalDate endDate) {
         return repository.getAll(userId, startDate, endDate);
     }
+    public Collection<Meal> getAll(int userId) {
+        return repository.getAll(userId);
+    }
 
     public Meal create(int authUserId, Meal meal) {
         return repository.save(authUserId, meal);
