@@ -19,18 +19,7 @@
 <body>
 <section>
     <h3><a href="index.html">Home</a></h3>
-    <hr/>
 
-    <form method="post">
-        <input type="hidden" name="action" value="changeUser">
-        <select name="user1" >
-            <option name="user2">User1</option>
-            <option name="user3">User2</option>
-        </select>
-        <input type="submit" >
-    </form>
-
-    <br/>
     <hr/>
     <h3 class="text-center">Моя еда</h3>
     <form method="get" action="meals">
@@ -44,13 +33,13 @@
         <label for="startTime">От времени (включая)</label>
         <input class="form-control" type="time" name="startTime" id="startTime" autocomplete="off">
 
-        <label for="endTime">До времени (включая)</label>
+        <label for="endTime">До времени (не включая)</label>
         <input class="form-control" type="time" name="endTime" id="endTime" autocomplete="off">
 
-        <button class="btn btn-danger" type="reset" onclick="location.href='meals?action=all'"/>
+        <button class="btn btn-danger" type="reset" onclick="location.href=''"/>
         Отменить
         </button>
-        <button class="btn btn-primary" onclick="location.href='meals?action=all'"/>
+        <button class="btn btn-primary" onclick="location.href=''"/>
         Отфильтровать
         </button>
     </form>
