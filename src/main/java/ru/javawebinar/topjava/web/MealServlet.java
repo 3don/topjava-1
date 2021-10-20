@@ -38,7 +38,7 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        request.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
         Meal meal = new Meal(id.isEmpty() ? null : Integer.valueOf(id),
                 LocalDateTime.parse(request.getParameter("dateTime")),
@@ -79,7 +79,7 @@ public class MealServlet extends HttpServlet {
                         stringToDate(request.getParameter("endDate")),
                         stringToTime(request.getParameter("startTime")),
                         stringToTime(request.getParameter("endTime"))
-                        ));
+                ));
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
             case "all":
@@ -96,20 +96,18 @@ public class MealServlet extends HttpServlet {
         return Integer.parseInt(paramId);
     }
 
-    private LocalDate stringToDate(String dateString){
-        if (dateString == null || dateString.equals("") ) {
+    private LocalDate stringToDate(String dateString) {
+        if (dateString == null || dateString.equals("")) {
             return null;
-        }
-        else {
+        } else {
             return LocalDate.parse(dateString);
         }
     }
 
-    private LocalTime stringToTime(String timeString){
-        if (timeString == null || timeString.equals("") ) {
+    private LocalTime stringToTime(String timeString) {
+        if (timeString == null || timeString.equals("")) {
             return null;
-        }
-        else {
+        } else {
             return LocalTime.parse(timeString);
         }
     }

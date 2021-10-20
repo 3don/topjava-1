@@ -25,18 +25,23 @@
     <form method="get" action="meals">
         <input type="hidden" name="action" value="filter">
         <label for="startDate">От даты (включая)</label>
-        <input class="form-control" type="date" name="startDate" id="startDate" autocomplete="off">
+        <input class="form-control" type="date" name="startDate" id="startDate" autocomplete="off"
+               value="<%= request.getParameter("startDate") %>">
 
         <label for="endDate">До даты (включая)</label>
-        <input class="form-control" type="date" name="endDate" id="endDate" autocomplete="off">
+        <input class="form-control" type="date" name="endDate" id="endDate" autocomplete="off"
+               value="<%= request.getParameter("endDate") %>">
 
         <label for="startTime">От времени (включая)</label>
-        <input class="form-control" type="time" name="startTime" id="startTime" autocomplete="off">
+        <input class="form-control" type="time" name="startTime" id="startTime" autocomplete="off"
+               value="<%= request.getParameter("startTime") %>">
 
         <label for="endTime">До времени (не включая)</label>
-        <input class="form-control" type="time" name="endTime" id="endTime" autocomplete="off">
+        <input class="form-control" type="time" name="endTime" id="endTime" autocomplete="off"
+               value="<%= request.getParameter("endTime") %>">
+        <br><br>
 
-        <button class="btn btn-danger" type="reset" onclick="location.href=''"/>
+        <button class="btn btn-danger" type="reset" onclick="location.href='meals'"/>
         Отменить
         </button>
         <button class="btn btn-primary" onclick="location.href=''"/>

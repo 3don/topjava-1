@@ -7,8 +7,8 @@ public class DateTimeUtil {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public static <T extends Comparable<? super T>> boolean isBetweenHalfOpen(T ldt, T start, T end) {
-        try { return ldt.compareTo(start) >= 0 && ldt.compareTo(end) < 0;
-
+        try {
+            return ldt.compareTo(start) >= 0 && ldt.compareTo(end) < 0;
         } catch (Exception e) {
             return true;
         }
