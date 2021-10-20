@@ -20,7 +20,7 @@ import static ru.javawebinar.topjava.web.SecurityUtil.authUserId;
 
 @Controller
 public class MealRestController {
-    protected final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     final MealService service;
 
@@ -36,7 +36,7 @@ public class MealRestController {
 
     public List<MealTo> getFilteredList(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime) {
         log.info("getAll with filters");
-        startDate = startDate == null ? LocalDate.MIN : startDate.plusDays(1);
+        startDate = startDate == null ? LocalDate.MIN : startDate;
         endDate = endDate == null ? LocalDate.MAX : endDate.plusDays(1);
         startTime = startTime == null ? LocalTime.MIN : startTime;
         endTime = endTime == null ? LocalTime.MAX : endTime;
@@ -66,6 +66,4 @@ public class MealRestController {
         log.info("delete {}", id);
         service.delete(authUserId(), id);
     }
-
-
 }

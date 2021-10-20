@@ -27,11 +27,11 @@ public class MealService {
     }
 
     public List<Meal> getFilteredList(int userId, LocalDate startDate, LocalDate endDate) {
-        return (List<Meal>) repository.getFilteredList(userId, startDate, endDate);
+        return repository.getFilteredList(userId, startDate, endDate);
     }
 
     public List<Meal> getAll(int userId) {
-        return (List<Meal>) repository.getAll(userId);
+        return repository.getAll(userId);
     }
 
     public Meal create(int userId, Meal meal) {

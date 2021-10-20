@@ -34,7 +34,7 @@ public class InMemoryMealRepository implements MealRepository {
     @Override
     public Meal save(int userId, Meal meal) {
         log.info("save {}, to user {}", meal, userId);
-        repository.putIfAbsent(userId, new ConcurrentHashMap<>());
+        repository.computeIfAbsent(userId, k -> new ConcurrentHashMap<>());
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
             repository.get(userId).put(meal.getId(), meal);
@@ -45,36 +45,35 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public boolean delete(int userId, int id) {
-        repository.putIfAbsent(userId, new ConcurrentHashMap<>());
         log.info("delete {} from user {}", id, userId);
+        repository.computeIfAbsent(userId, k -> new ConcurrentHashMap<>());
         return repository.get(userId).remove(id) != null;
     }
 
     @Override
     public Meal get(int userId, int id) {
         log.info("get {} from user {}", id, userId);
-        repository.putIfAbsent(userId, new ConcurrentHashMap<>());
+        repository.computeIfAbsent(userId, k -> new ConcurrentHashMap<>());
         return repository.get(userId).get(id);
     }
 
     @Override
     public List<Meal> getFilteredList(int userId, LocalDate startDate, LocalDate endDate) {
         log.info("get filtered from user {}", userId);
-        repository.putIfAbsent(userId, new ConcurrentHashMap<>());
-        return filterByPredicate(repository.get(userId).values(),
+        return filterByPredicate(userId, repository.get(userId).values(),
                 meal -> DateTimeUtil.isBetweenHalfOpen(meal.getDate(), startDate, endDate));
     }
 
     public List<Meal> getAll(int userId) {
         log.info("get all from user {}", userId);
-        repository.putIfAbsent(userId, new ConcurrentHashMap<>());
-        return filterByPredicate(repository.get(userId).values(), meal -> true);
+        return filterByPredicate(userId, repository.get(userId).values(), meal -> true);
     }
 
-    public List<Meal> filterByPredicate(Collection<Meal> meals, Predicate<Meal> filter) {
+    public List<Meal> filterByPredicate(int userId, Collection<Meal> meals, Predicate<Meal> filter) {
+        repository.computeIfAbsent(userId, k -> new ConcurrentHashMap<>());
         return meals.stream()
                 .filter(filter)
-                .sorted(Comparator.comparing(Meal::getDate).thenComparing(Meal::getTime).reversed())
+                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
                 .collect(Collectors.toList());
     }
 }

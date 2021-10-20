@@ -23,9 +23,7 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        if (request.getParameter("action") != null && request.getParameter("action").equals("changeUser")) {
-            setAuthUserId(Integer.parseInt(request.getParameter("user")));
-            response.sendRedirect("index.html");
-        }
+        setAuthUserId(Integer.parseInt(request.getParameter("user")));
+        response.sendRedirect("index.html");
     }
 }

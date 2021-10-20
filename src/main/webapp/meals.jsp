@@ -26,19 +26,19 @@
         <input type="hidden" name="action" value="filter">
         <label for="startDate">От даты (включая)</label>
         <input class="form-control" type="date" name="startDate" id="startDate" autocomplete="off"
-               value="<%= request.getParameter("startDate") %>">
+               value=${param.startDate}>
 
         <label for="endDate">До даты (включая)</label>
         <input class="form-control" type="date" name="endDate" id="endDate" autocomplete="off"
-               value="<%= request.getParameter("endDate") %>">
+               value=${param.endDate}>
 
         <label for="startTime">От времени (включая)</label>
         <input class="form-control" type="time" name="startTime" id="startTime" autocomplete="off"
-               value="<%= request.getParameter("startTime") %>">
+               value=${param.startTime}>
 
         <label for="endTime">До времени (не включая)</label>
         <input class="form-control" type="time" name="endTime" id="endTime" autocomplete="off"
-               value="<%= request.getParameter("endTime") %>">
+               value=${param.endTime}>
         <br><br>
 
         <button class="btn btn-danger" type="reset" onclick="location.href='meals'"/>
