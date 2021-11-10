@@ -2,7 +2,6 @@ package ru.javawebinar.topjava.service;
 
 import org.junit.AfterClass;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.rules.Stopwatch;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
@@ -49,33 +48,6 @@ public abstract class AbstractServiceTest {
                 "\n---------------------------------" +
                 results +
                 "\n---------------------------------");
-    }
-
-    @Test
-    public void delete() {
-    }
-
-    @Test
-    public void deleteNotFound() {
-    }
-
-    @Test
-    public void get() {
-    }
-
-    @Test
-    public void getNotFound() {
-    }
-
-    @Test
-    public void getAll() {
-    }
-
-    @Test
-    public void update() {
-    }
-
-    @Test
-    public void create() {
+        results.setLength(0);
     }
 }
