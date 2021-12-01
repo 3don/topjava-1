@@ -66,6 +66,9 @@ public class MealTo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MealTo mealTo = (MealTo) o;
+        if ((mealTo.dateTime == null && this.dateTime != null)
+                || (mealTo.description == null && this.description != null)
+                || (mealTo.id == null && this.id != null)) return false;
         return calories == mealTo.calories && excess == mealTo.excess && id.equals(mealTo.id) && Objects.equals(dateTime, mealTo.dateTime) && Objects.equals(description, mealTo.description);
     }
 
