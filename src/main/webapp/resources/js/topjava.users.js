@@ -45,3 +45,15 @@ $(function () {
         })
     );
 });
+
+function enable(chkbox, id){
+    var enabled = chkbox.checked ? "1":"0";
+    $.ajax({
+        url: ctx.ajaxUrl + id,
+        data: "enable="+ enabled,
+        type: "POST"
+    }).done(function () {
+        updateTable();
+        successNoty("changed user status");
+    });
+}

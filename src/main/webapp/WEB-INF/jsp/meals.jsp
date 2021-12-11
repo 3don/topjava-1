@@ -19,19 +19,19 @@
                     <div class="row">
                         <div class="col-2">
                             <label for = "startDate"><spring:message code="meal.startDate"/>:</label>
-                            <input class="form-control" name="startDate" id="startDate" autocomplete="off">
+                            <input class="form-control" type="date" name="startDate" id="startDate" autocomplete="off">
                         </div>
                         <div class="col-2">
                             <label for = "endDate"><spring:message code="meal.endDate"/>:</label>
-                            <input class="form-control" name="endDate" id="endDate" autocomplete="off">
+                            <input class="form-control" type="date" name="endDate" id="endDate" autocomplete="off">
                         </div>
                         <div class="col-3 offset-2">
                             <label for = "startTime"><spring:message code="meal.startTime"/>:</label>
-                            <input class="form-control" name="startTime" id="startTime" autocomplete="off">
+                            <input class="form-control" type="time" name="startTime" id="startTime" autocomplete="off">
                         </div>
                         <div class="col-3">
                             <label for = "endTime"><spring:message code="meal.endTime"/>:</label>
-                            <input class="form-control" name="endTime" id="endTime" autocomplete="off">
+                            <input class="form-control" type="time" name="endTime" id="endTime" autocomplete="off">
                         </div>
                     </div>
                 </form>
@@ -42,7 +42,7 @@
                     </span>
                     <spring:message code="common.cancel"/>
                 </button>
-                <button class="btn btn-primary" onclick="ctx.updateTable()">
+                <button class="btn btn-primary" onclick="updateFilter()">
                     <span class="fa fa-filter">
                     </span>
                     <spring:message code="meal.filter"/>
@@ -67,12 +67,7 @@
             <c:forEach items="${requestScope.meals}" var="meal">
                 <jsp:useBean id="meal" type="ru.javawebinar.topjava.to.MealTo"/>
             <tr data-meal-excess="${meal.excess}" id="${meal.id}">
-                <td>
-                        <%--${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()}--%>
-                        <%--<%=TimeUtil.toString(meal.getDateTime())%>--%>
-                        <%--${fn:replace(meal.dateTime, 'T', ' ')}--%>
-                        ${fn:formatDateTime(meal.dateTime)}
-                </td>
+                <td>${fn:formatDateTime(meal.dateTime)}</td>
                 <td>${meal.description}</td>
                 <td>${meal.calories}</td>
                 <td><a><span class="fa fa-pencil"></span></a></td>

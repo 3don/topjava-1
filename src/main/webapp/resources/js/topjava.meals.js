@@ -38,3 +38,19 @@ $(function () {
         })
     );
 });
+
+function updateFilter(){
+        $.ajax({
+        url: ctx.ajaxUrl + "filter",
+        type: "GET",
+        data: $("#filter").serialize()
+    }).done(function (data){
+    ctx.datatableApi.clear().rows.add(data).draw();
+    successNoty("Filtered")
+    });
+}
+
+function clearFilter(){
+    $("#filter")[0].reset();
+    updateTable();
+}
