@@ -2,7 +2,9 @@ package ru.javawebinar.topjava.web.json;
 
 import org.junit.jupiter.api.Test;
 import ru.javawebinar.topjava.MealTestData;
+import ru.javawebinar.topjava.UserTestData;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;
 
 import java.util.List;
 
@@ -24,5 +26,16 @@ class JsonUtilTest {
         System.out.println(json);
         List<Meal> meals = JsonUtil.readValues(json, Meal.class);
         MEAL_MATCHER.assertMatch(meals, MealTestData.meals);
+    }
+
+    @Test
+    void writeOnlyAccess() {
+        String json = JsonUtil.writeValue(UserTestData.user);
+        System.out.println(json);
+        assertThat(json, not(containsString("password")));
+        String jsonWithPass = UserTestData.jsonWithPassword(UserTestData.user, "newPass");
+        System.out.println(jsonWithPass);
+        User user = JsonUtil.readValue(jsonWithPass, User.class);
+        assertEquals(user.getPassword(), "newPass");
     }
 }
